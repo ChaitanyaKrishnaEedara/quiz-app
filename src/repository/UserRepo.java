@@ -1,0 +1,85 @@
+package repository;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.User;
+
+public class UserRepo {
+	private final static String FILE_NAME = "users.dat";
+
+	private List<User> users = new ArrayList<>();
+
+	public UserRepo() {
+		super();
+		loadUsers();
+	}
+
+	public void saveUser(User user) {
+		user.setId(users.size() + 1);
+		users.add(user);
+		saveToFile();
+	}
+
+	public User findById(long id) {
+		for (User u : users) {
+			if (u.getId() == id)
+				return u;
+		}
+		return null;
+	}
+
+	public User findByUserName(String userName) {
+		for (User u : users) {
+			if (u.getUserName() == userName)
+				return u;
+		}
+		return null;
+	}
+
+	public List<User> getAllUsers() {
+		return users;
+	}
+
+	public boolean deleteUser(long id) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getId() == id) {
+				users.remove(i);
+				saveToFile();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void loadUsers() {
+		File file = new File(FILE_NAME);
+		if (!file.exists()) {
+			users = new ArrayList<>();
+			return;
+		}
+
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
+			users = (List<User>) ois.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			users = new ArrayList<>();
+			System.out.println("Could not load questions. Starting with empty list.");
+		}
+	}
+
+	private void saveToFile() {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+			oos.writeObject(users);
+		} catch (IOException e) {
+			System.out.println("Error while saving user(s): " + e.getMessage());
+		}
+
+	}
+}

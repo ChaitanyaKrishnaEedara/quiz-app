@@ -12,7 +12,7 @@ public class UserService {
 		userRepo.saveUser(user);
 	}
 
-	public List<User> getAllQuestions() {
+	public List<User> getAllUsers() {
 		return userRepo.getAllUsers();
 	}
 
@@ -24,7 +24,7 @@ public class UserService {
 		return userRepo.findByUserName(userName);
 	}
 
-	public boolean deleteQuestion(long id) {
+	public boolean deleteUser(long id) {
 		return userRepo.deleteUser(id);
 	}
 }

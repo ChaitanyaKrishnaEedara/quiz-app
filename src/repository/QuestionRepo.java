@@ -27,7 +27,7 @@ public class QuestionRepo {
 	}
 
 	public List<Question> getAllQuestions() {
-		return questions;
+		return new ArrayList<>(questions);
 	}
 
 	public Question findById(long id) {
@@ -62,6 +62,7 @@ public class QuestionRepo {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadQuestions() {
 		File file = new File(FILE_NAME);
 		if (!file.exists()) {

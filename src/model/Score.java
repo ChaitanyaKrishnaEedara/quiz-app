@@ -1,21 +1,32 @@
 package model;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-public class Score {
+public class Score implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private long id;
-	private long userId;
-	private int totalQuestionsAnswered;
-	private double score;
-	private LocalDate date;
+	private long userId;// linked with User service's id when retrieving data(by filtering) using
+						// streams
+	private int totalQuestions;
+	private int correctAnswers; // correctly answered questions since we can't skip a question for them to be
+								// unanswered
+	private int score; // most likely percentage
+	private double percentage;
+	private LocalDateTime dateTime;
 
-	public Score(long id, long userId, int totalQuestionsAnswered, double score, LocalDate date) {
+	public Score(long id, long userId, int totalQuestions, int correctAnswers, int score, LocalDateTime dateTime) {
 		super();
 		this.id = id;
 		this.userId = userId;
-		this.totalQuestionsAnswered = totalQuestionsAnswered;
+		this.totalQuestions = totalQuestions;
+		this.correctAnswers = correctAnswers;
 		this.score = score;
-		this.date = date;
+		this.dateTime = dateTime;
 	}
 
 	public long getId() {
@@ -34,34 +45,50 @@ public class Score {
 		this.userId = userId;
 	}
 
-	public int getTotalQuestionsAnswered() {
-		return totalQuestionsAnswered;
+	public int getTotalQuestions() {
+		return totalQuestions;
 	}
 
-	public void setTotalQuestionsAnswered(int totalQuestionsAnswered) {
-		this.totalQuestionsAnswered = totalQuestionsAnswered;
+	public void setTotalQuestions(int totalQuestions) {
+		this.totalQuestions = totalQuestions;
+	}
+
+	public int getCorrectAnswers() {
+		return correctAnswers;
+	}
+
+	public void setCorrectAnswers(int correctAnswers) {
+		this.correctAnswers = correctAnswers;
 	}
 
 	public double getScore() {
 		return score;
 	}
 
-	public void setScore(double score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public double getPercentage() {
+		return percentage;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	@Override
 	public String toString() {
-		return "Score [id=" + id + ", userId=" + userId + ", totalQuestionsAnswered=" + totalQuestionsAnswered
-				+ ", score=" + score + ", date=" + date + "]";
+		return "Score [id=" + id + ", userId=" + userId + ", totalQuestions=" + totalQuestions + ", correctAnswers="
+				+ correctAnswers + ", score=" + score + ", percentage=" + percentage + ", dateTime=" + dateTime + "]";
 	}
 
 }

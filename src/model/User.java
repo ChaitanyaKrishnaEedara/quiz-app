@@ -1,12 +1,20 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private long id;
 	private String userName;
 	private String password;
-	private String role;
+	private Role role;// Admin, User/Player - might change it to Enum datatype - this var would be
+						// useful for filtering and separating admin and user abilities
 
-	public User(long id, String userName, String password, String role) {
+	public User(long id, String userName, String password, Role role) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -38,11 +46,11 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

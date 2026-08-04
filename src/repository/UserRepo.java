@@ -11,6 +11,11 @@ import java.util.List;
 
 import model.User;
 
+/*
+ * similar to QuestionRepo, for CRUD operations
+ * currently not interested in adding update functionality for user
+ * admin simply needs to delete the existing user credentials to be able to create a new account(i.e password, username changes)
+ */
 public class UserRepo {
 	private final static String FILE_NAME = "users.dat";
 
@@ -22,7 +27,7 @@ public class UserRepo {
 	}
 
 	public void saveUser(User user) {
-		user.setId(users.size() + 1);
+		user.setId(generateNextId());
 		users.add(user);
 		saveToFile();
 	}
@@ -37,14 +42,14 @@ public class UserRepo {
 
 	public User findByUserName(String userName) {
 		for (User u : users) {
-			if (u.getUserName() == userName)
+			if (u.getUserName() != null && u.getUserName().equals(userName))
 				return u;
 		}
 		return null;
 	}
 
 	public List<User> getAllUsers() {
-		return users;
+		return new ArrayList<>(users);
 	}
 
 	public boolean deleteUser(long id) {
@@ -59,6 +64,17 @@ public class UserRepo {
 		return false;
 	}
 
+	private long generateNextId() {
+		long maxId = 0;
+		for (User u : users) {
+			if (u.getId() > maxId) {
+				maxId = u.getId();
+			}
+		}
+		return maxId + 1;
+	}
+
+	@SuppressWarnings("unchecked")
 	private void loadUsers() {
 		File file = new File(FILE_NAME);
 		if (!file.exists()) {

@@ -28,6 +28,14 @@ public class UserRepo {
 
 	public void saveUser(User user) {
 		user.setId(generateNextId());
+//		user.setRole(Role.USER);// changed to be done at MenuService
+		users.add(user);
+		saveToFile();
+	}
+
+	public void saveAdmin(User user) {
+		user.setId(generateNextId());
+//		user.setRole(Role.ADMIN);
 		users.add(user);
 		saveToFile();
 	}

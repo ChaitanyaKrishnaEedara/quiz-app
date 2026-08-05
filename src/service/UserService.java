@@ -12,6 +12,10 @@ public class UserService {
 		userRepo.saveUser(user);
 	}
 
+	public void saveAdmin(User user) {
+		userRepo.saveAdmin(user);
+	}
+
 	public List<User> getAllUsers() {
 		return userRepo.getAllUsers();
 	}

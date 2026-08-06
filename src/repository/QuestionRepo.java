@@ -22,6 +22,7 @@ public class QuestionRepo {
 	}
 
 	public void saveQuestion(Question question) {
+		question.setId(generateNextId());
 		questions.add(question);
 		saveToFile();
 	}
@@ -60,6 +61,16 @@ public class QuestionRepo {
 		}
 
 		return false;
+	}
+
+	private long generateNextId() {
+		long maxId = 0;
+		for (Question q : questions) {
+			if (q.getId() > maxId) {
+				maxId = q.getId();
+			}
+		}
+		return maxId + 1;
 	}
 
 	@SuppressWarnings("unchecked")

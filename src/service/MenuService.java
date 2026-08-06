@@ -90,15 +90,12 @@ public class MenuService {
 			System.out.println("Select the action you want to perform");
 			System.out.println("1. Add a question\n" + "2. Print all questions in order\n"
 					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n"
-					+ "Enter any other number to stop the session\n" + "Enter your choice: ");
+					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 
 			switch (choice) {
 			case 1 -> {
 				System.out.println("----------ADD QUESTION----------");
-				System.out.print("Enter question id: ");
-				long id = Long.parseLong(sc.nextLine());
-
 				System.out.print("Enter the question: ");
 				String que = sc.nextLine();
 
@@ -111,7 +108,7 @@ public class MenuService {
 				System.out.print("Enter the answer: ");
 				String answer = sc.nextLine();
 
-				Question question = new Question(id, que, options, answer);
+				Question question = new Question(0, que, options, answer);
 				questionService.saveQuestion(question);
 
 				System.out.println("Question saved successfully.\n");

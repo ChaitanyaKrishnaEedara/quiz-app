@@ -12,7 +12,8 @@ public class AuthService {
 	public boolean login(String userName, String password) {
 		List<User> users = userRepo.getAllUsers();
 		for (User u : users) {
-			if (u.getUserName().equals(userName) && u.getPassword().equals(password)) {
+			if (!(u.getUserName().equals(null)) && u.getUserName().equals(userName)
+					&& u.getPassword().equals(password)) {
 				return true;
 			}
 		}
@@ -22,7 +23,7 @@ public class AuthService {
 	public boolean checkRegistration(String userName) {
 		List<User> users = userRepo.getAllUsers();
 		for (User u : users) {
-			if (u.getUserName().equals(userName)) {
+			if (!(u.getUserName().equals(null)) && u.getUserName().equals(userName)) {
 				return true;// conveys that the userName exists already
 			}
 		}

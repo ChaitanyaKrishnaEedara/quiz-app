@@ -12,7 +12,30 @@ public class MenuService {
 	private QuestionService questionService = new QuestionService();
 	private AuthService authService = new AuthService();
 	private UserService userService = new UserService();
+	User user;
 	Scanner sc = new Scanner(System.in);
+
+	public void startSession() {
+		while (true) {
+			System.out.println("Are you an existing user? (yes/no)");
+			String existing = sc.nextLine();
+			if (existing.equalsIgnoreCase("no") || existing.equalsIgnoreCase("n")) {
+				register();
+			} else if (existing.equalsIgnoreCase("yes") || existing.equalsIgnoreCase("y")) {
+				user = login();
+				break;
+			} else {
+				System.out.println("**********Stopping the session**********");
+				return;
+			}
+		}
+
+		if (user.getRole() == Role.ADMIN) {
+			adminActions();
+		} else if (user.getRole() == Role.USER) {
+			userActions();
+		}
+	}
 
 	public User login() {
 		String userName;
@@ -50,7 +73,8 @@ public class MenuService {
 			password = sc.nextLine();
 			userExists = authService.checkRegistration(userName);
 			if (userExists) {
-				System.out.println("User with same username exists. Try registering with a different username.\n");
+				System.out.println("User with same username exists or You've entered an invalid username."
+						+ " Try registering with a different username.\n");
 			} else {
 				System.out.println("Registration successful.\n");
 			}

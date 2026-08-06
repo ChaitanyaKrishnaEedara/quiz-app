@@ -94,7 +94,7 @@ public class UserRepo {
 			users = (List<User>) ois.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			users = new ArrayList<>();
-			System.out.println("Could not load questions. Starting with empty list.");
+			System.out.println("Could not load users. Starting with empty list.");
 		}
 	}
 

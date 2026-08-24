@@ -22,6 +22,7 @@ public class ScoreRepo {
 	}
 
 	public void saveScore(Score score) {
+		score.setId(generateNextId());
 		scores.add(score);
 		saveToFile();
 	}
@@ -36,6 +37,16 @@ public class ScoreRepo {
 				return q;
 		}
 		return null;
+	}
+
+	private long generateNextId() {
+		long maxId = 0;
+		for (Score s : scores) {
+			if (s.getId() > maxId) {
+				maxId = s.getId();
+			}
+		}
+		return maxId + 1;
 	}
 
 	@SuppressWarnings("unchecked")

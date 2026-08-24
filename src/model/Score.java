@@ -19,13 +19,13 @@ public class Score implements Serializable {
 	private double percentage;
 	private LocalDateTime dateTime;
 
-	public Score(long id, long userId, int totalQuestions, int correctAnswers, int score, LocalDateTime dateTime) {
+	public Score(long id, long userId, int totalQuestions, int correctAnswers, double percentage, LocalDateTime dateTime) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.totalQuestions = totalQuestions;
 		this.correctAnswers = correctAnswers;
-		this.score = score;
+		this.percentage = percentage;
 		this.dateTime = dateTime;
 	}
 

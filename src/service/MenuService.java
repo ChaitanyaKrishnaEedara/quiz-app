@@ -12,6 +12,7 @@ public class MenuService {
 	private QuestionService questionService = new QuestionService();
 	private AuthService authService = new AuthService();
 	private UserService userService = new UserService();
+	private QuizService quizService = new QuizService();
 	User user;
 	Scanner sc = new Scanner(System.in);
 
@@ -171,6 +172,21 @@ public class MenuService {
 	}
 
 	public void userActions() {
-		System.out.println("This is placeholder code\n");
+		String decision;
+		do {
+			System.out.println("Select the action you want to perform");
+			System.out.println(
+					"1. Start the quiz\n" + "Enter any other number to stop the session\n" + "\nEnter your choice: ");
+			int choice = Integer.parseInt(sc.nextLine());
+			switch (choice) {
+			case 1 -> {
+				quizService.startQuiz(user);
+			}
+			}
+			System.out.println("\nDo you wish to continue: (yes/no)");
+			decision = sc.nextLine();
+		} while (decision.equalsIgnoreCase("yes") || decision.equalsIgnoreCase("y"));
+		System.out.println("**********Stopping the session**********");
+
 	}
 }

@@ -3,26 +3,26 @@ package model;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class Question implements Serializable{
+public class Question implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private long id;
 	private String question;
 	private String[] options;
-	private String answer;
+	private int correctOption;
 
 //	Topic topic;
 //	QCategory category;
-	public Question(long id, String question, String[] options, String answer) {
+	public Question(long id, String question, String[] options, int correctOption) {
 		super();
 		this.id = id;
 		this.question = question;
 		this.options = options;
-		this.answer = answer;
+		this.correctOption = correctOption;
 	}
 
 	public long getId() {
@@ -49,12 +49,12 @@ public class Question implements Serializable{
 		this.options = options;
 	}
 
-	public String getAnswer() {
-		return answer;
+	public int getCorrectOption() {
+		return correctOption;
 	}
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setCorrectOption(int correctOption) {
+		this.correctOption = correctOption;
 	}
 
 //	@Override
@@ -62,15 +62,11 @@ public class Question implements Serializable{
 //		return "Question [id=" + id + ", question=" + question + ", options=" + Arrays.toString(options) + ", answer="
 //				+ answer + "]";
 //	}
-	
+
 	@Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", question='" + question + '\'' +
-                ", options=" + Arrays.toString(options) +
-                ", answer='" + answer + '\'' +
-                '}';
-    }
+	public String toString() {
+		return "Question{" + "id=" + id + ", question='" + question + '\'' + ", options=" + Arrays.toString(options)
+				+ ", answer='" + correctOption + '\'' + '}';
+	}
 
 }

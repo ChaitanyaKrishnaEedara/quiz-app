@@ -105,10 +105,11 @@ public class MenuService {
 					options[i] = sc.nextLine();
 				}
 
-				System.out.print("Enter the answer: ");
-				String answer = sc.nextLine();
+				System.out.print("Enter the correct option: ");
+				int correctOption = sc.nextInt();
+				sc.nextLine();
 
-				Question question = new Question(0, que, options, answer);
+				Question question = new Question(0, que, options, correctOption);
 				questionService.saveQuestion(question);
 
 				System.out.println("Question saved successfully.\n");
@@ -136,10 +137,11 @@ public class MenuService {
 					options[i] = sc.nextLine();
 				}
 
-				System.out.print("Enter the answer: ");
-				String answer = sc.nextLine();
+				System.out.print("Enter the correct option: ");
+				int correctOption = sc.nextInt();
+				sc.nextLine();
 
-				Question question = new Question(id, que, options, answer);
+				Question question = new Question(id, que, options, correctOption);
 				boolean status = questionService.updateQuestion(question);
 				if (status) {
 					System.out.println("Question updated successfully.\n");

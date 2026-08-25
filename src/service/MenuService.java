@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 import model.Question;
 import model.Role;
+import model.Score;
 import model.User;
 
 public class MenuService {
 	private QuestionService questionService = new QuestionService();
+	private ScoreService scoreService = new ScoreService();
 	private AuthService authService = new AuthService();
 	private UserService userService = new UserService();
 	private QuizService quizService = new QuizService();
@@ -91,6 +93,7 @@ public class MenuService {
 			System.out.println("Select the action you want to perform");
 			System.out.println("1. Add a question\n" + "2. Print all questions in order\n"
 					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n"
+					+ "5. View all User scores\n" + "6. View score by User\n"
 					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 
@@ -114,6 +117,7 @@ public class MenuService {
 				questionService.saveQuestion(question);
 
 				System.out.println("Question saved successfully.\n");
+				System.out.println("------------------------------");
 			}
 			case 2 -> {
 				System.out.println("----------ALL QUESTIONS----------");
@@ -123,6 +127,7 @@ public class MenuService {
 					System.out.println(itr.next());
 					System.out.println();
 				}
+				System.out.println("------------------------------");
 			}
 			case 3 -> {
 				System.out.println("----------UPDATE----------");
@@ -149,6 +154,7 @@ public class MenuService {
 				} else {
 					System.out.println("An error occured while updating the question! Try again\n");
 				}
+				System.out.println("------------------------------");
 			}
 			case 4 -> {
 				System.out.println("----------DELETE----------");
@@ -162,6 +168,29 @@ public class MenuService {
 				} else {
 					System.out.println("An error occured while deleting the question!\n");
 				}
+				System.out.println("------------------------------");
+			}
+			case 5 -> {
+				System.out.println("----------ALL USERS SCORES----------");
+				List<Score> scores = scoreService.getAllScores();
+				ListIterator<Score> itr = scores.listIterator();
+				while (itr.hasNext()) {
+					System.out.println(itr.next());
+					System.out.println();
+				}
+				System.out.println("------------------------------");
+			}
+			case 6 -> {
+				System.out.println("----------VIEW A USER SCORES----------");
+				System.out.println("Enter the id of desired user: ");
+				long id = Long.parseLong(sc.nextLine());
+				List<Score> userScores = scoreService.getScoresByUserId(id);
+				ListIterator<Score> itr = userScores.listIterator();
+				while (itr.hasNext()) {
+					System.out.println(itr.next());
+					System.out.println();
+				}
+				System.out.println("------------------------------");
 			}
 			}
 
@@ -175,12 +204,22 @@ public class MenuService {
 		String decision;
 		do {
 			System.out.println("Select the action you want to perform");
-			System.out.println(
-					"1. Start the quiz\n" + "Enter any other number to stop the session\n" + "\nEnter your choice: ");
+			System.out.println("1. Start the quiz\n" + "2. View your previous scores\n"
+					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
 			case 1 -> {
 				quizService.startQuiz(user);
+			}
+			case 2 -> {
+				System.out.println("----------YOUR SCORES----------");
+				List<Score> userScores = scoreService.getScoresByUserId(user.getId());
+				ListIterator<Score> itr = userScores.listIterator();
+				while (itr.hasNext()) {
+					System.out.println(itr.next());
+					System.out.println();
+				}
+				System.out.println("------------------------------");
 			}
 			}
 			System.out.println("\nDo you wish to continue: (yes/no)");

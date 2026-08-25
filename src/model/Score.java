@@ -15,11 +15,12 @@ public class Score implements Serializable {
 	private int totalQuestions;
 	private int correctAnswers; // correctly answered questions since we can't skip a question for them to be
 								// unanswered
-	private int score; // most likely percentage
+//	private int score; // most likely percentage
 	private double percentage;
 	private LocalDateTime dateTime;
 
-	public Score(long id, long userId, int totalQuestions, int correctAnswers, double percentage, LocalDateTime dateTime) {
+	public Score(long id, long userId, int totalQuestions, int correctAnswers, double percentage,
+			LocalDateTime dateTime) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -61,13 +62,13 @@ public class Score implements Serializable {
 		this.correctAnswers = correctAnswers;
 	}
 
-	public double getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
+//	public double getScore() {
+//		return score;
+//	}
+//
+//	public void setScore(int score) {
+//		this.score = score;
+//	}
 
 	public double getPercentage() {
 		return percentage;
@@ -88,7 +89,7 @@ public class Score implements Serializable {
 	@Override
 	public String toString() {
 		return "Score [id=" + id + ", userId=" + userId + ", totalQuestions=" + totalQuestions + ", correctAnswers="
-				+ correctAnswers + ", score=" + score + ", percentage=" + percentage + ", dateTime=" + dateTime + "]";
+				+ correctAnswers + ", percentage=" + percentage + ", dateTime=" + dateTime + "]";
 	}
 
 }

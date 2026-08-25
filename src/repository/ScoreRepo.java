@@ -31,19 +31,29 @@ public class ScoreRepo {
 		return new ArrayList<>(scores);
 	}
 
+	public List<Score> getScoresByUserId(long userId) {
+		List<Score> userScores = new ArrayList<>();
+		for (Score score : scores) {
+			if (score.getUserId() == userId) {
+				userScores.add(score);
+			}
+		}
+		return userScores;
+	}
+
 	public Score findById(long id) {
-		for (Score q : scores) {
-			if (q.getId() == id)
-				return q;
+		for (Score score : scores) {
+			if (score.getId() == id)
+				return score;
 		}
 		return null;
 	}
 
 	private long generateNextId() {
 		long maxId = 0;
-		for (Score s : scores) {
-			if (s.getId() > maxId) {
-				maxId = s.getId();
+		for (Score score : scores) {
+			if (score.getId() > maxId) {
+				maxId = score.getId();
 			}
 		}
 		return maxId + 1;

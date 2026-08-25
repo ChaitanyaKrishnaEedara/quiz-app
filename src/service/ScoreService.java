@@ -16,6 +16,10 @@ public class ScoreService {
 		return scoreRepo.getAllScores();
 	}
 
+	public List<Score> getScoresByUserId(long userId) {
+		return scoreRepo.getScoresByUserId(userId);
+	}
+
 	public Score findById(long id) {
 		return scoreRepo.findById(id);
 	}

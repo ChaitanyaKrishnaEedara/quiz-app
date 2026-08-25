@@ -22,8 +22,8 @@ public class QuizService {
 		double percentage = calculatePercentage(correctAnswers, questions.size());
 
 		saveScore(user, questions.size(), correctAnswers, percentage);
-//
-//        displayResult(...);
+
+		displayResult(user.getUserName(), questions.size(), correctAnswers, percentage);
 	}
 
 	public List<Question> getQuizQuestions() {
@@ -31,8 +31,11 @@ public class QuizService {
 	}
 
 	public int conductQuiz(List<Question> questions) {
+		System.out.println();
+		System.out.println("----------QUIZ STARTS----------");
 		int correctAnswers = 0;
 		for (Question question : questions) {
+			System.out.println();
 
 			System.out.println(question.getQuestion());
 
@@ -42,13 +45,15 @@ public class QuizService {
 				System.out.println((i + 1) + ". " + options[i]);
 			}
 
-			System.out.println("Enter your answer: [option number]");
+			System.out.print("\nEnter your answer[option number]: ");
 			int userAnswer = sc.nextInt();
 
 			if (userAnswer == question.getCorrectOption()) {
 				correctAnswers++;
 			}
+			System.out.println();
 		}
+		System.out.println("----------QUIZ ENDS----------");
 		return correctAnswers;
 	}
 
@@ -60,6 +65,16 @@ public class QuizService {
 	public void saveScore(User user, int totalQuestions, int correctAnswers, double percentage) {
 		Score score = new Score(0, user.getId(), totalQuestions, correctAnswers, percentage, LocalDateTime.now());
 		scoreService.saveScore(score);
+	}
+
+	public void displayResult(String userName, int totalQuestions, int correctAnswers, double percentage) {
+		System.out.println();
+		System.out.println("----------Score----------");
+		System.out.println("User name      : " + userName);
+		System.out.println("Total Questions: " + totalQuestions);
+		System.out.println("Correct Answers: " + correctAnswers);
+		System.out.println("Percentage     : " + percentage);
+		System.out.println();
 	}
 
 }

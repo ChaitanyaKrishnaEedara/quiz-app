@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
+import model.Category;
 import model.Question;
 import model.Role;
 import model.Score;
@@ -113,7 +114,35 @@ public class MenuService {
 				int correctOption = sc.nextInt();
 				sc.nextLine();
 
-				Question question = new Question(0, que, options, correctOption);
+				int input;
+				Category category = null;
+				do {
+					System.out.println("Choose the category for the question");
+					System.out.println("1. Java\n2. MySQL\n3. HTML\n4. CSS\n5. JavaScript");
+					input = sc.nextInt();
+					switch (input) {
+					case 1 -> {
+						category = Category.JAVA;
+					}
+					case 2 -> {
+						category = Category.MYSQL;
+					}
+					case 3 -> {
+						category = Category.HTML;
+					}
+					case 4 -> {
+						category = Category.CSS;
+					}
+					case 5 -> {
+						category = Category.JAVASCRIPT;
+					}
+					default -> {
+						System.out.println("Invalid category\n");
+					}
+					}
+				} while (input < 1 && input > 5);
+
+				Question question = new Question(0, que, options, correctOption, category);
 				questionService.saveQuestion(question);
 
 				System.out.println("Question saved successfully.\n");
@@ -147,7 +176,35 @@ public class MenuService {
 				int correctOption = sc.nextInt();
 				sc.nextLine();
 
-				Question question = new Question(id, que, options, correctOption);
+				int input;
+				Category category = null;
+				do {
+					System.out.println("Choose the category for the question");
+					System.out.println("1. Java\n2. MySQL\n3. HTML\n4. CSS\n5. JavaScript");
+					input = sc.nextInt();
+					switch (input) {
+					case 1 -> {
+						category = Category.JAVA;
+					}
+					case 2 -> {
+						category = Category.MYSQL;
+					}
+					case 3 -> {
+						category = Category.HTML;
+					}
+					case 4 -> {
+						category = Category.CSS;
+					}
+					case 5 -> {
+						category = Category.JAVASCRIPT;
+					}
+					default -> {
+						System.out.println("Invalid category\n");
+					}
+					}
+				} while (input < 1 || input > 5);
+
+				Question question = new Question(id, que, options, correctOption, category);
 				boolean status = questionService.updateQuestion(question);
 				if (status) {
 					System.out.println("Question updated successfully.\n");

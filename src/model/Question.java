@@ -14,15 +14,17 @@ public class Question implements Serializable {
 	private String question;
 	private String[] options;
 	private int correctOption;
+	private Category category;
 
 //	Topic topic;
 //	QCategory category;
-	public Question(long id, String question, String[] options, int correctOption) {
+	public Question(long id, String question, String[] options, int correctOption, Category category) {
 		super();
 		this.id = id;
 		this.question = question;
 		this.options = options;
 		this.correctOption = correctOption;
+		this.category = category;
 	}
 
 	public long getId() {
@@ -63,10 +65,18 @@ public class Question implements Serializable {
 //				+ answer + "]";
 //	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
 		return "Question{" + "id=" + id + ", question='" + question + '\'' + ", options=" + Arrays.toString(options)
-				+ ", answer='" + correctOption + '\'' + '}';
+				+ ", answer='" + correctOption + '\'' + ", category='" + category + '\'' + '}';
 	}
 
 }

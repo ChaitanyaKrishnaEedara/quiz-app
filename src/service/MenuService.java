@@ -120,6 +120,7 @@ public class MenuService {
 					System.out.println("Choose the category for the question");
 					System.out.println("1. Java\n2. MySQL\n3. HTML\n4. CSS\n5. JavaScript");
 					input = sc.nextInt();
+					sc.nextLine();
 					switch (input) {
 					case 1 -> {
 						category = Category.JAVA;
@@ -162,19 +163,29 @@ public class MenuService {
 				System.out.println("----------UPDATE----------");
 				System.out.print("Enter the id of desired question: ");
 				long id = Long.parseLong(sc.nextLine());
+				Question originalQuestion = questionService.findById(id);
 
-				System.out.print("Enter the new question or paste the same question: ");
+				System.out.print("Enter the new question or enter blank to assign previous question: ");
 				String que = sc.nextLine();
-
-				String[] options = new String[4];
-				System.out.println("Enter new 4 options or paste old options:");
-				for (int i = 0; i < 4; i++) {
-					options[i] = sc.nextLine();
+				if (que.equals("")) {
+					que = originalQuestion.getQuestion();
 				}
 
-				System.out.print("Enter the correct option: ");
+				String[] options = new String[4];
+				System.out.println("Enter new 4 options or enter blank to assign previous options:");
+				for (int i = 0; i < 4; i++) {
+					options[i] = sc.nextLine();
+					if (options[i].equals("")) {
+						options[i] = originalQuestion.getOptions()[i];
+					}
+				}
+
+				System.out.println("Enter the correct option or enter 0 to assign previous correct option: ");
 				int correctOption = sc.nextInt();
 				sc.nextLine();
+				if (correctOption == 0) {
+					correctOption = originalQuestion.getCorrectOption();
+				}
 
 				int input;
 				Category category = null;
@@ -182,6 +193,7 @@ public class MenuService {
 					System.out.println("Choose the category for the question");
 					System.out.println("1. Java\n2. MySQL\n3. HTML\n4. CSS\n5. JavaScript");
 					input = sc.nextInt();
+					sc.nextLine();
 					switch (input) {
 					case 1 -> {
 						category = Category.JAVA;

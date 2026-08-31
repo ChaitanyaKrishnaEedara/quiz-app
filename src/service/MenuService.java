@@ -93,8 +93,8 @@ public class MenuService {
 		do {
 			System.out.println("Select the action you want to perform");
 			System.out.println("1. Add a question\n" + "2. Print all questions in order\n"
-					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n"
-					+ "5. View all User scores\n" + "6. View score by User\n"
+					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n" + "5. View all users\n"
+					+ "6. View user by ID\n" + "7. View all User scores\n" + "8. View score by User\n"
 					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 
@@ -240,6 +240,28 @@ public class MenuService {
 				System.out.println("------------------------------");
 			}
 			case 5 -> {
+				System.out.println("----------ALL USERS LIST----------");
+				List<User> users = userService.getAllUsers();
+				ListIterator<User> itr = users.listIterator();
+				while (itr.hasNext()) {
+					System.out.println(itr.next());
+					System.out.println();
+				}
+			}
+			case 6 -> {
+				System.out.println("----------USER DETAILS----------");
+				System.out.println("Enter the id of User: ");
+				long id = Long.parseLong(sc.nextLine());
+
+				User user = userService.findById(id);
+				if (user == null) {
+					System.out.println("The User with the specified id does not exist!");
+				} else {
+					System.out.println(user);
+				}
+
+			}
+			case 7 -> {
 				System.out.println("----------ALL USERS SCORES----------");
 				List<Score> scores = scoreService.getAllScores();
 				ListIterator<Score> itr = scores.listIterator();
@@ -249,7 +271,7 @@ public class MenuService {
 				}
 				System.out.println("------------------------------");
 			}
-			case 6 -> {
+			case 8 -> {
 				System.out.println("----------VIEW A USER SCORES----------");
 				System.out.println("Enter the id of desired user: ");
 				long id = Long.parseLong(sc.nextLine());

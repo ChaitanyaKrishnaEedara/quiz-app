@@ -1,8 +1,10 @@
 package service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import model.Category;
 import model.Question;
@@ -120,8 +122,8 @@ public class MenuService {
 			System.out.println("1. Add a question\n" + "2. Print all questions in order\n"
 					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n" + "5. View all users\n"
 					+ "6. View user by ID\n" + "7. View all User scores\n" + "8. View score by User\n"
-					+ "9. Add an Admin\n" + "10. Delete an User\n" + "Enter any other number to stop the session\n"
-					+ "\nEnter your choice: ");
+					+ "9. Add an Admin\n" + "10. Delete an User\n" + "11. View the leaderboard\n"
+					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 
 			switch (choice) {
@@ -328,6 +330,19 @@ public class MenuService {
 				}
 				System.out.println("------------------------------");
 			}
+			case 11 -> {
+				System.out.println("----------LEADERBOARD----------");
+				List<Score> leaderboard = leaderboard();
+				ListIterator<Score> itr = leaderboard.listIterator();
+				while (itr.hasNext()) {
+					Score score = itr.next();
+					System.out.println("ID=" + score.getId() + ", user ID=" + score.getUserId() + ", Total Questions="
+							+ score.getTotalQuestions() + ", Correct Answers=" + score.getCorrectAnswers()
+							+ ", Percentage=" + score.getPercentage() + ", Date and Time=" + score.getDateTime());
+					System.out.println();
+				}
+				System.out.println("------------------------------");
+			}
 			}
 
 			System.out.println("\nDo you wish to continue: (yes/no)");
@@ -340,7 +355,7 @@ public class MenuService {
 		String decision;
 		do {
 			System.out.println("Select the action you want to perform");
-			System.out.println("1. Start the quiz\n" + "2. View your previous scores\n"
+			System.out.println("1. Start the quiz\n" + "2. View your previous scores\n" + "3. View the leaderboard\n"
 					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
@@ -357,11 +372,41 @@ public class MenuService {
 				}
 				System.out.println("------------------------------");
 			}
+			case 3 -> {
+				System.out.println("----------LEADERBOARD----------");
+				List<Score> leaderboard = leaderboard();
+				ListIterator<Score> itr = leaderboard.listIterator();
+				while (itr.hasNext()) {
+					Score score = itr.next();
+					System.out.println("ID=" + score.getId() + ", user ID=" + score.getUserId() + ", Total Questions="
+							+ score.getTotalQuestions() + ", Correct Answers=" + score.getCorrectAnswers()
+							+ ", Percentage=" + score.getPercentage() + ", Date and Time=" + score.getDateTime());
+					System.out.println();
+				}
+				System.out.println("------------------------------");
+			}
 			}
 			System.out.println("\nDo you wish to continue: (yes/no)");
 			decision = sc.nextLine();
 		} while (decision.equalsIgnoreCase("yes") || decision.equalsIgnoreCase("y"));
 		System.out.println("**********Stopping the session**********");
+	}
 
+	public List<Score> leaderboard() {
+		List<Score> scores = scoreService.getAllScores();
+		List<Score> leaderboard = scores.stream()
+				.sorted(Comparator.<Score>comparingDouble(s -> s.getPercentage()).reversed())
+				.collect(Collectors.toList());
+
+//		Alternate version with method reference(::)
+//		scores.stream()
+//		.sorted(Comparator.comparingDouble(Score::getPercentage).reversed())
+//		.collect(Collectors.toList());
+//		or
+//		scores.stream()
+//		.sorted(Comparator.comparingDouble(s -> ((Score) s).getPercentage()).reversed())
+//		.collect(Collectors.toList());
+
+		return leaderboard;
 	}
 }

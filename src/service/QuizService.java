@@ -10,9 +10,16 @@ import model.Score;
 import model.User;
 
 public class QuizService {
-	private QuestionService questionService = new QuestionService();
-	private ScoreService scoreService = new ScoreService();
-	private final Scanner sc = new Scanner(System.in);
+	private final QuestionService questionService;
+	private final ScoreService scoreService;
+	private final Scanner sc;
+
+	public QuizService(QuestionService questionService, ScoreService scoreService, Scanner sc) {
+		super();
+		this.questionService = questionService;
+		this.scoreService = scoreService;
+		this.sc = sc;
+	}
 
 	public void startQuiz(User user) {
 		List<Question> questions = getQuizQuestions();

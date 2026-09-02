@@ -11,13 +11,16 @@ import model.Score;
 import model.User;
 
 public class MenuService {
-	private QuestionService questionService = new QuestionService();
-	private ScoreService scoreService = new ScoreService();
-	private AuthService authService = new AuthService();
-	private UserService userService = new UserService();
-	private QuizService quizService = new QuizService();
-	User user;
-	Scanner sc = new Scanner(System.in);
+	private final QuestionService questionService = new QuestionService();
+	private final UserService userService = new UserService();
+	private final ScoreService scoreService = new ScoreService();
+
+	private final Scanner sc = new Scanner(System.in);
+
+	private final AuthService authService = new AuthService(userService);
+	private final QuizService quizService = new QuizService(questionService, scoreService, sc);
+
+	private User user;
 
 	public void startSession() {
 		while (true) {
@@ -87,6 +90,28 @@ public class MenuService {
 		userService.saveUser(u);
 	}
 
+	public void registerAdmin() {
+		String userName;
+		String password;
+		boolean userExists;
+		do {
+			System.out.println();
+			System.out.println("Enter username: ");
+			userName = sc.nextLine();
+			System.out.println("Enter password: ");
+			password = sc.nextLine();
+			userExists = authService.checkRegistration(userName);
+			if (userExists) {
+				System.out.println("Admin/User with same username already exists or You've entered an invalid username."
+						+ " Try registering with a different username.\n");
+			} else {
+				System.out.println("Admin registration successful.\n");
+			}
+		} while (userExists);
+		User u = new User(0, userName, password, Role.ADMIN);
+		userService.saveUser(u);
+	}
+
 	public void adminActions() {
 
 		String decision;
@@ -95,12 +120,13 @@ public class MenuService {
 			System.out.println("1. Add a question\n" + "2. Print all questions in order\n"
 					+ "3. Update a question by its ID\n" + "4. Delete a question by its ID\n" + "5. View all users\n"
 					+ "6. View user by ID\n" + "7. View all User scores\n" + "8. View score by User\n"
-					+ "Enter any other number to stop the session\n" + "\nEnter your choice: ");
+					+ "9. Add an Admin\n" + "10. Delete an User\n" + "Enter any other number to stop the session\n"
+					+ "\nEnter your choice: ");
 			int choice = Integer.parseInt(sc.nextLine());
 
 			switch (choice) {
 			case 1 -> {
-				System.out.println("----------ADD QUESTION----------");
+				System.out.println("----------ADD A QUESTION----------");
 				System.out.print("Enter the question: ");
 				String que = sc.nextLine();
 
@@ -160,7 +186,7 @@ public class MenuService {
 				System.out.println("------------------------------");
 			}
 			case 3 -> {
-				System.out.println("----------UPDATE----------");
+				System.out.println("----------UPDATE A QUESTION----------");
 				System.out.print("Enter the id of desired question: ");
 				long id = Long.parseLong(sc.nextLine());
 				Question originalQuestion = questionService.findById(id);
@@ -226,7 +252,7 @@ public class MenuService {
 				System.out.println("------------------------------");
 			}
 			case 4 -> {
-				System.out.println("----------DELETE----------");
+				System.out.println("----------DELETE A QUESTION----------");
 				System.out.println("Enter the ID of desired question: ");
 				long id = Long.parseLong(sc.nextLine());
 
@@ -280,6 +306,25 @@ public class MenuService {
 				while (itr.hasNext()) {
 					System.out.println(itr.next());
 					System.out.println();
+				}
+				System.out.println("------------------------------");
+			}
+			case 9 -> {
+				System.out.println("----------ADD AN ADMIN----------");
+				registerAdmin();
+				System.out.println("------------------------------");
+			}
+			case 10 -> {
+				System.out.println("----------DELETE AN USER----------");
+				System.out.println("Enter the id of desired User: ");
+				long id = Long.parseLong(sc.nextLine());
+
+				boolean status = userService.deleteUser(id);
+
+				if (status) {
+					System.out.println("User deleted successfully\n");
+				} else {
+					System.out.println("An error occured while deleting user! Try again!\n");
 				}
 				System.out.println("------------------------------");
 			}

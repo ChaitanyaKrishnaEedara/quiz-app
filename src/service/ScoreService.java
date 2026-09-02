@@ -6,7 +6,7 @@ import model.Score;
 import repository.ScoreRepo;
 
 public class ScoreService {
-	private ScoreRepo scoreRepo = new ScoreRepo();
+	private final ScoreRepo scoreRepo = new ScoreRepo();
 
 	public void saveScore(Score score) {
 		scoreRepo.saveScore(score);

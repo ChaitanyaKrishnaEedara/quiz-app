@@ -6,7 +6,7 @@ import model.Question;
 import repository.QuestionRepo;
 
 public class QuestionService {
-	private QuestionRepo questionRepo = new QuestionRepo();
+	private final QuestionRepo questionRepo = new QuestionRepo();
 
 	public void saveQuestion(Question question) {
 		questionRepo.saveQuestion(question);

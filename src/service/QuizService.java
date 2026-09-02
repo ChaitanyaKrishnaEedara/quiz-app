@@ -1,10 +1,12 @@
 package service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+import model.Category;
 import model.Question;
 import model.Score;
 import model.User;
@@ -24,6 +26,8 @@ public class QuizService {
 	public void startQuiz(User user) {
 		List<Question> questions = getQuizQuestions();
 
+		Collections.shuffle(questions);
+
 		int correctAnswers = conductQuiz(questions);
 
 		double percentage = calculatePercentage(correctAnswers, questions.size());
@@ -34,7 +38,43 @@ public class QuizService {
 	}
 
 	public List<Question> getQuizQuestions() {
-		return new ArrayList<>(questionService.getAllQuestions());
+		List<Question> allQuestions = questionService.getAllQuestions();
+
+		int input;
+		Category category = null;
+		do {
+			System.out.println("Choose the category to which you want to start the quiz...");
+			System.out.println("1. Java\n2. MySQL\n3. HTML\n4. CSS\n5. JavaScript\n");
+			input = sc.nextInt();
+			sc.nextLine();
+			switch (input) {
+			case 1 -> {
+				category = Category.JAVA;
+			}
+			case 2 -> {
+				category = Category.MYSQL;
+			}
+			case 3 -> {
+				category = Category.HTML;
+			}
+			case 4 -> {
+				category = Category.CSS;
+			}
+			case 5 -> {
+				category = Category.JAVASCRIPT;
+			}
+			default -> {
+				System.out.println("Invalid category\n");
+			}
+			}
+		} while (input < 1 || input > 5);
+
+		final Category selectedCategory = category;
+
+		List<Question> categorizedQuestions = allQuestions.stream().filter(q -> q.getCategory() == selectedCategory)
+				.collect(Collectors.toList());
+
+		return categorizedQuestions;
 	}
 
 	public int conductQuiz(List<Question> questions) {
@@ -54,6 +94,7 @@ public class QuizService {
 
 			System.out.print("\nEnter your answer[option number]: ");
 			int userAnswer = sc.nextInt();
+			sc.nextLine();
 
 			if (userAnswer == question.getCorrectOption()) {
 				correctAnswers++;

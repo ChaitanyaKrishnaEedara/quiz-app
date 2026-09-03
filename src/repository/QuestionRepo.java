@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import model.Question;
 
@@ -52,9 +53,10 @@ public class QuestionRepo {
 	}
 
 	public boolean deleteQuestion(long id) {
-		for (int i = 0; i < questions.size(); i++) {
-			if (questions.get(i).getId() == id) {
-				questions.remove(i);
+		ListIterator<Question> itr = questions.listIterator();
+		while (itr.hasNext()) {
+			if (itr.next().getId() == id) {
+				itr.remove();
 				saveToFile();
 				return true;
 			}

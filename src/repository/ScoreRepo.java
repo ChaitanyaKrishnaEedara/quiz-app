@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import model.Score;
 
@@ -47,6 +48,19 @@ public class ScoreRepo {
 				return score;
 		}
 		return null;
+	}
+
+	public boolean deleteScoresByUserId(long userId) {
+		boolean status = false;
+		ListIterator<Score> itr = scores.listIterator();
+		while (itr.hasNext()) {
+			if (itr.next().getUserId() == userId) {
+				itr.remove();
+			}
+		}
+		saveToFile();
+
+		return status;
 	}
 
 	private long generateNextId() {

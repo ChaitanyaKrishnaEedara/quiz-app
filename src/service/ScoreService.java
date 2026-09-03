@@ -24,4 +24,8 @@ public class ScoreService {
 		return scoreRepo.findById(id);
 	}
 
+	public boolean deleteScoresByUserId(long userId) {
+		return scoreRepo.deleteScoresByUserId(userId);
+	}
+
 }

@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import model.User;
 
@@ -61,9 +62,10 @@ public class UserRepo {
 	}
 
 	public boolean deleteUser(long id) {
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getId() == id) {
-				users.remove(i);
+		ListIterator<User> itr = users.listIterator();
+		while (itr.hasNext()) {
+			if (itr.next().getId() == id) {
+				itr.remove();
 				saveToFile();
 				return true;
 			}

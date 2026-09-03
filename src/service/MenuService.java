@@ -322,9 +322,11 @@ public class MenuService {
 				long id = Long.parseLong(sc.nextLine());
 
 				boolean status = userService.deleteUser(id);
+				scoreService.deleteScoresByUserId(id);
 
 				if (status) {
-					System.out.println("User deleted successfully\n");
+					System.out.println("User deleted successfully");
+					System.out.println("Their scores(if exist) are also deleted successfully");
 				} else {
 					System.out.println("An error occured while deleting user! Try again!\n");
 				}
@@ -378,9 +380,10 @@ public class MenuService {
 				ListIterator<Score> itr = leaderboard.listIterator();
 				while (itr.hasNext()) {
 					Score score = itr.next();
-					System.out.println("ID=" + score.getId() + ", user ID=" + score.getUserId() + ", Total Questions="
-							+ score.getTotalQuestions() + ", Correct Answers=" + score.getCorrectAnswers()
-							+ ", Percentage=" + score.getPercentage() + ", Date and Time=" + score.getDateTime());
+					System.out.println("ID=" + score.getId() + ", user ID=" + score.getUserId() + ", Category="
+							+ score.getCategory() + ", Total Questions=" + score.getTotalQuestions()
+							+ ", Correct Answers=" + score.getCorrectAnswers() + ", Percentage=" + score.getPercentage()
+							+ ", Date and Time=" + score.getDateTime());
 					System.out.println();
 				}
 				System.out.println("------------------------------");

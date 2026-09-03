@@ -83,10 +83,15 @@ public class QuizService {
 		System.out.println();
 		System.out.println("----------QUIZ STARTS----------");
 		int correctAnswers = 0;
-		for (Question question : questions) {
+		int limit = 20;
+		if (questions.size() < 20) {
+			limit = questions.size();
+		}
+		for (int index = 0; index < limit; index++) {
 			System.out.println();
 
-			System.out.println(question.getQuestion());
+			Question question = questions.get(index);
+			System.out.println("Q" + (index + 1) + ") " + question.getQuestion());
 
 			String[] options = question.getOptions();
 			// display options

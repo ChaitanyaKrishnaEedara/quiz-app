@@ -12,6 +12,7 @@ public class Score implements Serializable {
 	private long id;
 	private long userId;// linked with User service's id when retrieving data(by filtering) using
 						// streams
+	private Category category;
 	private int totalQuestions;
 	private int correctAnswers; // correctly answered questions since we can't skip a question for them to be
 								// unanswered
@@ -19,11 +20,12 @@ public class Score implements Serializable {
 	private double percentage;
 	private LocalDateTime dateTime;
 
-	public Score(long id, long userId, int totalQuestions, int correctAnswers, double percentage,
+	public Score(long id, long userId, Category category, int totalQuestions, int correctAnswers, double percentage,
 			LocalDateTime dateTime) {
 		super();
 		this.id = id;
 		this.userId = userId;
+		this.category = category;
 		this.totalQuestions = totalQuestions;
 		this.correctAnswers = correctAnswers;
 		this.percentage = percentage;
@@ -44,6 +46,14 @@ public class Score implements Serializable {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public int getTotalQuestions() {
@@ -88,8 +98,9 @@ public class Score implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Score [id=" + id + ", userId=" + userId + ", totalQuestions=" + totalQuestions + ", correctAnswers="
-				+ correctAnswers + ", percentage=" + percentage + ", dateTime=" + dateTime + "]";
+		return "Score [id=" + id + ", userId=" + userId + ", category=" + category + ", totalQuestions="
+				+ totalQuestions + ", correctAnswers=" + correctAnswers + ", percentage=" + percentage + ", dateTime="
+				+ dateTime + "]";
 	}
 
 }

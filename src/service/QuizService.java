@@ -26,15 +26,17 @@ public class QuizService {
 	public void startQuiz(User user) {
 		List<Question> questions = getQuizQuestions();
 
+		Category category = questions.get(0).getCategory();
+
 		Collections.shuffle(questions);
 
 		int correctAnswers = conductQuiz(questions);
 
 		double percentage = calculatePercentage(correctAnswers, questions.size());
 
-		saveScore(user, questions.size(), correctAnswers, percentage);
+		saveScore(user, category, questions.size(), correctAnswers, percentage);
 
-		displayResult(user.getUserName(), questions.size(), correctAnswers, percentage);
+		displayResult(user.getUserName(), category, questions.size(), correctAnswers, percentage);
 	}
 
 	public List<Question> getQuizQuestions() {
@@ -110,15 +112,18 @@ public class QuizService {
 		return percentage;
 	}
 
-	public void saveScore(User user, int totalQuestions, int correctAnswers, double percentage) {
-		Score score = new Score(0, user.getId(), totalQuestions, correctAnswers, percentage, LocalDateTime.now());
+	public void saveScore(User user, Category category, int totalQuestions, int correctAnswers, double percentage) {
+		Score score = new Score(0, user.getId(), category, totalQuestions, correctAnswers, percentage,
+				LocalDateTime.now());
 		scoreService.saveScore(score);
 	}
 
-	public void displayResult(String userName, int totalQuestions, int correctAnswers, double percentage) {
+	public void displayResult(String userName, Category category, int totalQuestions, int correctAnswers,
+			double percentage) {
 		System.out.println();
 		System.out.println("----------Score----------");
 		System.out.println("User name      : " + userName);
+		System.out.println("Category       : " + category);
 		System.out.println("Total Questions: " + totalQuestions);
 		System.out.println("Correct Answers: " + correctAnswers);
 		System.out.println("Percentage     : " + percentage);

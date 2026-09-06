@@ -54,9 +54,9 @@ public class MenuService {
 			System.out.println();
 			System.out.println("*******LOGIN*******");
 			System.out.println("Enter your username: ");
-			userName = sc.nextLine();
+			userName = sc.nextLine().trim();
 			System.out.println("Enter your password: ");
-			password = sc.nextLine();
+			password = sc.nextLine().trim();
 
 			matchFound = authService.login(userName, password);
 			if (matchFound) {
@@ -77,9 +77,9 @@ public class MenuService {
 			System.out.println();
 			System.out.println("*******USER REGISTRATION*******");
 			System.out.println("Enter your username: ");
-			userName = sc.nextLine();
+			userName = sc.nextLine().trim();
 			System.out.println("Enter your password: ");
-			password = sc.nextLine();
+			password = sc.nextLine().trim();
 			userExists = authService.checkRegistration(userName);
 			if (userExists) {
 				System.out.println("User with same username exists or You've entered an invalid username."
@@ -130,12 +130,13 @@ public class MenuService {
 			case 1 -> {
 				System.out.println("----------ADD A QUESTION----------");
 				System.out.print("Enter the question: ");
-				String que = sc.nextLine();
+				String que = sc.nextLine().trim();
 
 				String[] options = new String[4];
 				System.out.println("Enter the 4 options:");
 				for (int i = 0; i < 4; i++) {
-					options[i] = sc.nextLine();
+					System.out.print((i + 1) + ". ");
+					options[i] = sc.nextLine().trim();
 				}
 
 				System.out.print("Enter the correct option: ");
@@ -194,7 +195,7 @@ public class MenuService {
 				Question originalQuestion = questionService.findById(id);
 
 				System.out.print("Enter the new question or enter blank to assign previous question: ");
-				String que = sc.nextLine();
+				String que = sc.nextLine().trim();
 				if (que.equals("")) {
 					que = originalQuestion.getQuestion();
 				}
@@ -202,7 +203,7 @@ public class MenuService {
 				String[] options = new String[4];
 				System.out.println("Enter new 4 options or enter blank to assign previous options:");
 				for (int i = 0; i < 4; i++) {
-					options[i] = sc.nextLine();
+					options[i] = sc.nextLine().trim();
 					if (options[i].equals("")) {
 						options[i] = originalQuestion.getOptions()[i];
 					}
@@ -211,7 +212,7 @@ public class MenuService {
 				System.out.println("Enter the correct option or enter 0 to assign previous correct option: ");
 				int correctOption = sc.nextInt();
 				sc.nextLine();
-				if (correctOption == 0) {
+				if (correctOption < 1 || correctOption > 4) {
 					correctOption = originalQuestion.getCorrectOption();
 				}
 
@@ -303,7 +304,11 @@ public class MenuService {
 				System.out.println("----------VIEW A USER SCORES----------");
 				System.out.println("Enter the id of desired user: ");
 				long id = Long.parseLong(sc.nextLine());
-				List<Score> userScores = scoreService.getScoresByUserId(id);
+
+				List<Score> scores = scoreService.getAllScores();
+				List<Score> userScores = scores.stream().filter(s -> s.getUserId() == id)
+						.collect(Collectors.toList());
+
 				ListIterator<Score> itr = userScores.listIterator();
 				while (itr.hasNext()) {
 					System.out.println(itr.next());
@@ -366,7 +371,10 @@ public class MenuService {
 			}
 			case 2 -> {
 				System.out.println("----------YOUR SCORES----------");
-				List<Score> userScores = scoreService.getScoresByUserId(user.getId());
+				List<Score> scores = scoreService.getAllScores();
+				List<Score> userScores = scores.stream().filter(s -> s.getUserId() == user.getId())
+						.collect(Collectors.toList());
+
 				ListIterator<Score> itr = userScores.listIterator();
 				while (itr.hasNext()) {
 					System.out.println(itr.next());

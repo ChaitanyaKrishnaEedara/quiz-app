@@ -32,16 +32,6 @@ public class ScoreRepo {
 		return new ArrayList<>(scores);
 	}
 
-	public List<Score> getScoresByUserId(long userId) {
-		List<Score> userScores = new ArrayList<>();
-		for (Score score : scores) {
-			if (score.getUserId() == userId) {
-				userScores.add(score);
-			}
-		}
-		return userScores;
-	}
-
 	public Score findById(long id) {
 		for (Score score : scores) {
 			if (score.getId() == id)

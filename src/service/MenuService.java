@@ -170,7 +170,7 @@ public class MenuService {
 						System.out.println("Invalid category\n");
 					}
 					}
-				} while (input < 1 && input > 5);
+				} while (input < 1 || input > 5);
 
 				Question question = new Question(0, que, options, correctOption, category);
 				questionService.saveQuestion(question);
@@ -306,8 +306,7 @@ public class MenuService {
 				long id = Long.parseLong(sc.nextLine());
 
 				List<Score> scores = scoreService.getAllScores();
-				List<Score> userScores = scores.stream().filter(s -> s.getUserId() == id)
-						.collect(Collectors.toList());
+				List<Score> userScores = scores.stream().filter(s -> s.getUserId() == id).collect(Collectors.toList());
 
 				ListIterator<Score> itr = userScores.listIterator();
 				while (itr.hasNext()) {
